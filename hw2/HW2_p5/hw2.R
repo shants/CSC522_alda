@@ -2,9 +2,9 @@
 # ALDA: hw2.R 
 # Instructor: Dr. Thomas Price
 # Mention your team details here
-#
-#
-#
+# Darpan Dodiya <dpdodiya@ncsu.edu>
+# Shantanu Sharma <ssharm34@ncsu.edu>
+# Shrijeet Jagadishchandra Joshi <sjoshi22@ncsu.edu>
 #
 ############################
 
@@ -89,6 +89,33 @@ knn_classifier <- function(x_train, y_train, x_test, distance_method, k){
   # You are not allowed to use predefined knn-based packages/functions. Using them will result in automatic zero.
   # Allowed packages: R base, utils
   
+  #begin code 
+  
+  #calculation of distance matrix
+  dm <- calculate_distance_matrix(x_train, x_test, distance_method)
+  
+  ans<- rep(0,nrow(dm)) # final ans 
+  
+  #TODO: for each row in the distance matrix, calculate the 'k' nearest neighbors
+  # and return the most frequently occurring class from these 'k' nearest neighbors.
+  if (distance_method == 'calculate_euclidean'){
+    for (i in seq(1, nrow(dm))){
+      r <- m[i,] # extract the row
+      t <- r[rank(r)<=k] #get lowest k values
+      #get the max class value and be carefu to apply note3 say a
+      a <- max(t)
+      ans[i]<- a
+    }
+  }else{
+    #distance method is 'calculate_cosine'
+    # look at note 2 
+    r <- m[i,] # extract the row
+    t <- r[rank(-r)<=k] #get top k values
+    #get the max class value and be carefu to apply note3 say a
+    a <- max(t)
+    ans[i]<- a
+    
+  }
   
 }
 
