@@ -1,0 +1,31 @@
+Group 15 
+---
+Darpan Dodiya - dpdodiya
+Shantanu Sharma - ssharm34
+Shrijeet Joshi - sjoshi22	
+
+
+Running Instructions
+---
+1. 	Open hw1.R in RStudio
+
+2. 	Source the functions by executing on Console 
+	> source("hw1.R")
+	
+3. 	Install required packages
+	require(ggplot2)
+	require(reshape2)
+	require(data.table)
+	require(philentropy)
+	require(plyr)
+	require(utils)
+	
+4. 	Use hw1_checker.R to verify functions.
+	
+
+	
+
+References
+---
+https://www.rdocumentation.org/
+
