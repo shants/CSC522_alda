@@ -43,13 +43,15 @@ calculate_euclidean <- function(p, q) {
   # Input: p, q are vectors of size 1 x 100, each representing a row (i.e., a sentence) from the original dataset.
   # output: a single value of type double, containing the euclidean distance between the vectors p and q
   # Write code here to calculate the euclidean distance between pair of vectors p and q
-  
+  x <- sqrt(sum((p - q) ^ 2))
+  return(x)
 }
 
 calculate_cosine <- function(p, q) {
   # Input: p, q are vectors of size 1 x 100, each representing a row (i.e., a sentence) from the original dataset.
   # output: a single value of type double, containing the cosine distance between the vectors p and q
   # Write code here to calculate the cosine distance between pair of vectors p and q
+  return( sum(p*q)/sqrt(sum(p^2)*sum(q^2)) )
   
 }
 
