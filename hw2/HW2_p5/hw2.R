@@ -98,12 +98,12 @@ knn_classifier <- function(x_train, y_train, x_test, distance_method, k){
   #TODO: for each row in the distance matrix, calculate the 'k' nearest neighbors
   # and return the most frequently occurring class from these 'k' nearest neighbors.
   if (distance_method == 'calculate_euclidean'){
-    for(i in seq(1, nrow(test_matrix))){
+    for(i in seq(1, nrow(x_test))){
     d_dist <-c()
     d_class <- c()
       r <- dm[,i]
       d <- data.frame(r,y_train)
-      d<- d[order(d$r,d$y_train)]
+      d<- d[order(d$r,d$y_train),]
       d<-d[1:k,]
       d_c <- d$y_train
       u <- unique(d_c)
@@ -114,12 +114,12 @@ knn_classifier <- function(x_train, y_train, x_test, distance_method, k){
   }else{
     #distance method is 'calculate_cosine'
     # look at note 2 
-    for(i in seq(1, nrow(test_matrix))){
+    for(i in seq(1, nrow(x_test))){
       d_dist <-c()
       d_class <- c()
       r <- dm[,i]
       d <- data.frame(r,y_train)
-      d<- d[order(-d$r,d$y_train)]
+      d<- d[order(-d$r,d$y_train),]
       d<-d[1:k,]
       d_c <- d$y_train
       u <- unique(d_c)
@@ -151,7 +151,7 @@ knn_classifier_confidence <- function(x_train, y_train, x_test, distance_method=
   dm <- calculate_distance_matrix(x_train, x_test, distance_method)
   ans<- rep(0,nrow(dm)) # final ans 
 
-  for(i in seq(1, nrow(test_matrix))){
+  for(i in seq(1, nrow(x_test))){
     d_dist <-c()
     d_class <- c()
     r <- dm[,i]
@@ -170,6 +170,7 @@ knn_classifier_confidence <- function(x_train, y_train, x_test, distance_method=
   }
   return (ans)
 }
+
 
 dtree <- function(x_train, y_train, x_test){
   set.seed(123)
