@@ -216,8 +216,13 @@ dtree_cv <- function(x_train, y_train, x_test, n_folds){
   # Allowed packages: rpart, caret, R Base, utils
   
   # HINT1: Make sure to read the documentation for the caret package. Check out the 'train' and 'trainControl' functions.
+  #data_ctrl <- trainControl(method = "cv", number = n_folds)
+  df <- data.frame(x_train, y_train)
+  names(df)[length(names(df))]<-"Class" 
   
-  
+  m1 <- train(Class ~ . ,data = df,trainControl(method = "cv", number = n_folds), methos="rpart", na.action = na.pass) 
+  p <- predict(m1,x_test)
+  return(p)  
 }
 
 
