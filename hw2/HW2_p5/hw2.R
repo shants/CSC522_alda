@@ -93,30 +93,39 @@ knn_classifier <- function(x_train, y_train, x_test, distance_method, k){
   
   #calculation of distance matrix
   dm <- calculate_distance_matrix(x_train, x_test, distance_method)
-  
   ans<- rep(0,nrow(dm)) # final ans 
   
   #TODO: for each row in the distance matrix, calculate the 'k' nearest neighbors
   # and return the most frequently occurring class from these 'k' nearest neighbors.
   if (distance_method == 'calculate_euclidean'){
-    for (i in seq(1, nrow(dm))){
-      r <- m[i,] # extract the row
-      t <- r[rank(r)<=k] #get lowest k values
-      #get the max class value and be carefu to apply note3 say a
-      a <- max(t)
-      ans[i]<- a
+    for(i in seq(1, nrow(test_matrix))){
+    d_dist <-c()
+    d_class <- c()
+      r <- dm[,i]
+      d <- data.frame(r,y_train)
+      d<- d[order(d$r,d$y_train)]
+      d_c <- d$y_train
+      u <- unique(d_c)
+      v <- u[which.max(tabulate(match(d_c, u)))]
+      ans[i] <- v
     }
+    return(ans)  
   }else{
     #distance method is 'calculate_cosine'
     # look at note 2 
-    r <- m[i,] # extract the row
-    t <- r[rank(-r)<=k] #get top k values
-    #get the max class value and be carefu to apply note3 say a
-    a <- max(t)
-    ans[i]<- a
-    
+    for(i in seq(1, nrow(test_matrix))){
+      d_dist <-c()
+      d_class <- c()
+      r <- dm[,i]
+      d <- data.frame(r,y_train)
+      d<- d[order(-d$r,d$y_train)]
+      d_c <- d$y_train
+      u <- unique(d_c)
+      v <- u[which.max(tabulate(match(d_c, u)))]
+      ans[i] <- v
+    }
+    return (ans)
   }
-  
 }
 
 
