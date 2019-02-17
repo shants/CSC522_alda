@@ -190,8 +190,12 @@ dtree <- function(x_train, y_train, x_test){
   
   # HINT2: I've given you attributes and class labels as separate variables. Do you need to combine them 
   # into a data frame for rpart?
+  df <- data.frame(x_train, y_train)
+  names(df)[length(names(df))]<-"Class" 
   
-  
+  m <- rpart(Class ~ ., data = df,method = "anova")
+  p <- predict(m, x_test)
+  return(p)
 }
 
 
