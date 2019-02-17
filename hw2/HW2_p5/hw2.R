@@ -104,6 +104,7 @@ knn_classifier <- function(x_train, y_train, x_test, distance_method, k){
       r <- dm[,i]
       d <- data.frame(r,y_train)
       d<- d[order(d$r,d$y_train)]
+      d<-d[1:k,]
       d_c <- d$y_train
       u <- unique(d_c)
       v <- u[which.max(tabulate(match(d_c, u)))]
@@ -119,6 +120,7 @@ knn_classifier <- function(x_train, y_train, x_test, distance_method, k){
       r <- dm[,i]
       d <- data.frame(r,y_train)
       d<- d[order(-d$r,d$y_train)]
+      d<-d[1:k,]
       d_c <- d$y_train
       u <- unique(d_c)
       v <- u[which.max(tabulate(match(d_c, u)))]
@@ -146,8 +148,27 @@ knn_classifier_confidence <- function(x_train, y_train, x_test, distance_method=
   
   # Read the NOTES from comments under knn_classifier.
   # Allowed packages: R base, utils
-  
-  
+  dm <- calculate_distance_matrix(x_train, x_test, distance_method)
+  ans<- rep(0,nrow(dm)) # final ans 
+
+  for(i in seq(1, nrow(test_matrix))){
+    d_dist <-c()
+    d_class <- c()
+    r <- dm[,i]
+    d <- data.frame(r,y_train)
+    d<- d[order(-d$r,d$y_train)]
+    d<-d[1:k,]
+    temp <- c()
+    v1<-c()
+    lab_vals <- unique(d$y_train)
+    for(i in lab_vals){
+      d1 <- d[d$y_train==i,]
+      conf = sum(d1$r)/sum(d$r)
+      v1<-c(v1,conf)
+    }
+    ans[i]=max(v1)
+  }
+  return (ans)
 }
 
 dtree <- function(x_train, y_train, x_test){
