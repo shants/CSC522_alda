@@ -245,7 +245,10 @@ calculate_accuracy <- function(y_pred, y_true){
   # overall class accuracy = accuracy of all the classes
   
   # confusion matrix should have Prediction to the left, and Reference on the top.
-  
-  
+  t <- table(y_true,y_pred)
+  cm<-confusionMatrix(t)
+  #print(cm)
+  op <- list(confmat = cm, accuracy=cm$overall['Accuracy'])
+  return (op)
 }
 
