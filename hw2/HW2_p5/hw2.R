@@ -110,7 +110,7 @@ knn_classifier <- function(x_train, y_train, x_test, distance_method, k){
       v <- u[which.max(tabulate(match(d_c, u)))]
       ans[i] <- v
     }
-    return(ans)  
+    return(as.factor(ans))  
   }else{
     #distance method is 'calculate_cosine'
     # look at note 2 
@@ -126,7 +126,7 @@ knn_classifier <- function(x_train, y_train, x_test, distance_method, k){
       v <- u[which.max(tabulate(match(d_c, u)))]
       ans[i] <- v
     }
-    return (ans)
+    return (as.factor(ans))
   }
 }
 
@@ -168,7 +168,7 @@ knn_classifier_confidence <- function(x_train, y_train, x_test, distance_method=
     }
     ans[i]=max(v1)
   }
-  return (ans)
+  return (as.factor(ans))
 }
 
 
@@ -197,7 +197,7 @@ dtree <- function(x_train, y_train, x_test){
   m <- rpart(Class ~ ., data = df,method = "class")
   p <- predict(m, x_test,type="class")
   #print(p)
-  return(p)
+  return(as.factor(p))
 }
 
 
@@ -227,7 +227,7 @@ dtree_cv <- function(x_train, y_train, x_test, n_folds){
               trControl = t)
   
   p <- predict(m1,x_test,type="raw")
-  return(p)  
+  return(as.factor(p))  
 }
 
 
