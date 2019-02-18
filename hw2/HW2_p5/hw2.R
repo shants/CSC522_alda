@@ -160,13 +160,16 @@ knn_classifier_confidence <- function(x_train, y_train, x_test, distance_method=
     d<-d[1:k,]
     temp <- c()
     v1<-c()
+    v2<-c()
     lab_vals <- unique(d$y_train)
-    for(i in lab_vals){
-      d1 <- d[d$y_train==i,]
+    for(j in lab_vals){
+      d1 <- d[d$y_train==j,]
       conf = sum(d1$r)/sum(d$r)
       v1<-c(v1,conf)
+      v2<-c(v2,j)
     }
-    ans[i]=max(v1)
+    d<-data.frame(v1,v2)
+    ans[i]=d[order(-d$v1)[1],2]
   }
   return (as.factor(ans))
 }
