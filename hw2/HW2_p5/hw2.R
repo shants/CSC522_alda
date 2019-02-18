@@ -193,8 +193,10 @@ dtree <- function(x_train, y_train, x_test){
   df <- data.frame(x_train, y_train)
   names(df)[length(names(df))]<-"Class" 
   
-  m <- rpart(Class ~ ., data = df,method = "anova")
-  p <- predict(m, x_test)
+  #print(df)
+  m <- rpart(Class ~ ., data = df,method = "class")
+  p <- predict(m, x_test,type="class")
+  #print(p)
   return(p)
 }
 
@@ -219,9 +221,12 @@ dtree_cv <- function(x_train, y_train, x_test, n_folds){
   #data_ctrl <- trainControl(method = "cv", number = n_folds)
   df <- data.frame(x_train, y_train)
   names(df)[length(names(df))]<-"Class" 
+  t<- trainControl(method = "cv", number = n_folds)
+  m1 <- train(Class ~ . , data = df, method = "rpart",
+              tuneLength=20,
+              trControl = t)
   
-  m1 <- train(Class ~ . ,data = df,trainControl(method = "cv", number = n_folds), methos="rpart", na.action = na.pass) 
-  p <- predict(m1,x_test)
+  p <- predict(m1,x_test,type="raw")
   return(p)  
 }
 
