@@ -150,16 +150,16 @@ knn_classifier_confidence <- function(x_train, y_train, x_test, distance_method=
   # Read the NOTES from comments under knn_classifier.
   # Allowed packages: R base, utils
   dm <- calculate_distance_matrix(x_train, x_test, distance_method)
-  ans<- rep(0,nrow(dm)) # final ans 
+  ans<- c() # final ans 
 
   for(i in seq(1, nrow(x_test))){
     d_dist <-c()
     d_class <- c()
     r <- dm[,i]
+    r <- as.matrix(r)
     d <- data.frame(r,y_train)
-    d<- d[order(-d$r,d$y_train),]
+    d<- d[order(-d$r),]
     d<-d[1:k,]
-    temp <- c()
     v1<-c()
     v2<-c()
     lab_vals <- unique(d$y_train)
@@ -170,7 +170,8 @@ knn_classifier_confidence <- function(x_train, y_train, x_test, distance_method=
       v2<-c(v2,j)
     }
     d<-data.frame(v1,v2)
-    ans[i]=d[order(-d$v1)[1],2]
+    p<-d[order(-d$v1)[1],2]
+    ans <- c(ans,p)
   }
   return (as.factor(ans))
 }
@@ -249,7 +250,7 @@ calculate_accuracy <- function(y_pred, y_true){
   # overall class accuracy = accuracy of all the classes
   
   # confusion matrix should have Prediction to the left, and Reference on the top.
-  t <- table(y_true,y_pred)
+  t <- table(y_pred,y_true)
   cm<-confusionMatrix(t)
   #print(cm)
   op <- list(confmat = cm, accuracy=cm$overall['Accuracy'])
