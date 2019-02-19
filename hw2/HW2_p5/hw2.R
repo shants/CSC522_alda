@@ -95,8 +95,6 @@ knn_classifier <- function(x_train, y_train, x_test, distance_method, k){
   dm <- calculate_distance_matrix(x_train, x_test, distance_method)
   ans<- c() # final ans 
   
-  #TODO: for each row in the distance matrix, calculate the 'k' nearest neighbors
-  # and return the most frequently occurring class from these 'k' nearest neighbors.
   if (distance_method == 'calculate_euclidean'){
     for(i in seq(1, nrow(x_test))){
       r <- dm[i,]
@@ -228,7 +226,7 @@ dtree_cv <- function(x_train, y_train, x_test, n_folds){
   names(df)[length(names(df))]<-"Class" 
   t<- trainControl(method = "cv", number = n_folds)
   m1 <- train(Class ~ . , data = df, method = "rpart",
-              #tuneLength=20,
+              tuneLength=20,
               trControl = t)
   
   p <- predict(m1,x_test,type="raw")
