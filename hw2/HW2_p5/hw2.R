@@ -118,10 +118,10 @@ knn_classifier <- function(x_train, y_train, x_test, distance_method, k){
     for(i in seq(1, nrow(x_test))){
       r <- dm[i,]
       r<-as.matrix(r)
+      d <- data.frame(r,y_train)
       d<- d[order(-d$r),]
       d<-d[1:k,]
       #print(d)
-      d_c <- d$y_train
       d_c <- d$y_train
       tbl <- as.data.frame(table(d_c))
       v<- as.matrix(tbl[order(-tbl[2],tbl[1]),])
