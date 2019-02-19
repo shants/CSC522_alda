@@ -158,11 +158,11 @@ knn_classifier_confidence <- function(x_train, y_train, x_test, distance_method=
     r <- dm[i,]
     r <- as.matrix(r)
     d <- data.frame(r,y_train)
+    lab_vals <- unique(d$y_train)
     d<- d[order(-d$r),]
     d<-d[1:k,]
     v1<-c()
     v2<-c()
-    lab_vals <- unique(d$y_train)
     for(j in lab_vals){
       d1 <- d[d$y_train==j,]
       conf = sum(d1$r)/sum(d$r)
@@ -228,7 +228,7 @@ dtree_cv <- function(x_train, y_train, x_test, n_folds){
   names(df)[length(names(df))]<-"Class" 
   t<- trainControl(method = "cv", number = n_folds)
   m1 <- train(Class ~ . , data = df, method = "rpart",
-              tuneLength=20,
+              #tuneLength=20,
               trControl = t)
   
   p <- predict(m1,x_test,type="raw")
@@ -252,11 +252,11 @@ calculate_accuracy <- function(y_pred, y_true){
   # confusion matrix should have Prediction to the left, and Reference on the top.
   t <- table(y_pred,y_true)
   #print(t)
-  #cm<-confusionMatrix(t)
+  cm<-confusionMatrix(y_pred, y_true)
   #print(cm)
   acc <- sum(diag(t))/sum(t)
-  #op <- list(confmat = cm, accuracy=cm$overall['Accuracy'])
-  op <- list(confmat=t, accuracy=acc)
+  op <- list(confmat = cm$table, accuracy=cm$overall['Accuracy'])
+  #op <- list(confmat=t, accuracy=acc)
   return (op)
 }
 
