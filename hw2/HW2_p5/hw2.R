@@ -155,7 +155,7 @@ knn_classifier_confidence <- function(x_train, y_train, x_test, distance_method=
   for(i in seq(1, nrow(x_test))){
     d_dist <-c()
     d_class <- c()
-    r <- dm[,i]
+    r <- dm[i,]
     r <- as.matrix(r)
     d <- data.frame(r,y_train)
     d<- d[order(-d$r),]
