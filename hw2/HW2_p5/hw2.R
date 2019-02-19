@@ -251,9 +251,12 @@ calculate_accuracy <- function(y_pred, y_true){
   
   # confusion matrix should have Prediction to the left, and Reference on the top.
   t <- table(y_pred,y_true)
-  cm<-confusionMatrix(t)
+  #print(t)
+  #cm<-confusionMatrix(t)
   #print(cm)
-  op <- list(confmat = cm, accuracy=cm$overall['Accuracy'])
+  acc <- sum(diag(t))/sum(t)
+  #op <- list(confmat = cm, accuracy=cm$overall['Accuracy'])
+  op <- list(confmat=t, accuracy=acc)
   return (op)
 }
 
