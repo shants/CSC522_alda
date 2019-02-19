@@ -51,7 +51,7 @@ calculate_cosine <- function(p, q) {
   # Input: p, q are vectors of size 1 x 100, each representing a row (i.e., a sentence) from the original dataset.
   # output: a single value of type double, containing the cosine distance between the vectors p and q
   # Write code here to calculate the cosine distance between pair of vectors p and q
-  return( sum(p*q)/sqrt(sum(p^2)*sum(q^2)) )
+  return((p%*%q)/(sqrt(sum(p^2))*sqrt(sum(q^2))))
   
 }
 
@@ -93,38 +93,39 @@ knn_classifier <- function(x_train, y_train, x_test, distance_method, k){
   
   #calculation of distance matrix
   dm <- calculate_distance_matrix(x_train, x_test, distance_method)
-  ans<- rep(0,nrow(dm)) # final ans 
+  ans<- c() # final ans 
   
   #TODO: for each row in the distance matrix, calculate the 'k' nearest neighbors
   # and return the most frequently occurring class from these 'k' nearest neighbors.
   if (distance_method == 'calculate_euclidean'){
     for(i in seq(1, nrow(x_test))){
-    d_dist <-c()
-    d_class <- c()
-      r <- dm[,i]
+      r <- dm[i,]
+      r<-as.matrix(r)
       d <- data.frame(r,y_train)
-      d<- d[order(d$r,d$y_train),]
+      d<- d[order(d$r),]
       d<-d[1:k,]
+      #print(d)
       d_c <- d$y_train
-      u <- unique(d_c)
-      v <- u[which.max(tabulate(match(d_c, u)))]
-      ans[i] <- v
+      tbl <- as.data.frame(table(d_c))
+      v<- as.matrix(tbl[order(-tbl[2],tbl[1]),])
+      ans <- c(ans,v[1,1])
+      
     }
     return(as.factor(ans))  
   }else{
     #distance method is 'calculate_cosine'
     # look at note 2 
     for(i in seq(1, nrow(x_test))){
-      d_dist <-c()
-      d_class <- c()
-      r <- dm[,i]
-      d <- data.frame(r,y_train)
-      d<- d[order(-d$r,d$y_train),]
+      r <- dm[i,]
+      r<-as.matrix(r)
+      d<- d[order(-d$r),]
       d<-d[1:k,]
+      #print(d)
       d_c <- d$y_train
-      u <- unique(d_c)
-      v <- u[which.max(tabulate(match(d_c, u)))]
-      ans[i] <- v
+      d_c <- d$y_train
+      tbl <- as.data.frame(table(d_c))
+      v<- as.matrix(tbl[order(-tbl[2],tbl[1]),])
+      ans <- c(ans,v[1,1])
     }
     return (as.factor(ans))
   }
