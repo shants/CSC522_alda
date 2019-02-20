@@ -1,0 +1,30 @@
+Group 15 
+---
+Darpan Dodiya - dpdodiya
+Shantanu Sharma - ssharm34
+Shrijeet Joshi - sjoshi22	
+
+Since this was a simple project, Shantanu started off the homework and worked on initial implementation. Darpan enhanced the implementation and fixed bugs. Code was documentation and README file was created by Darpan. Shrijeet verified everything. 
+
+Running Instructions
+---
+1. 	Open hw0.R in RStudio
+
+2. 	Source the functions by executing on Console 
+	> source("hw0.R")
+	
+3. 	Verify the intro_to_r function by
+	> intro_to_r(5)
+	Here, 5 is number of values. Can be changed. 
+	
+4. 	Verify the intro_to_r function by
+	> intro_to_plotting(10)
+	Here, 10 is number of values. Can be changed.
+	
+
+	
+
+References
+---
+https://www.rdocumentation.org/
+
