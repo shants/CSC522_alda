@@ -95,8 +95,6 @@ knn_classifier <- function(x_train, y_train, x_test, distance_method, k){
   dm <- calculate_distance_matrix(x_train, x_test, distance_method)
   ans<- c() # final ans 
   
-  #TODO: for each row in the distance matrix, calculate the 'k' nearest neighbors
-  # and return the most frequently occurring class from these 'k' nearest neighbors.
   if (distance_method == 'calculate_euclidean'){
     for(i in seq(1, nrow(x_test))){
       r <- dm[i,]
@@ -155,14 +153,14 @@ knn_classifier_confidence <- function(x_train, y_train, x_test, distance_method=
   for(i in seq(1, nrow(x_test))){
     d_dist <-c()
     d_class <- c()
-    r <- dm[,i]
+    r <- dm[i,]
     r <- as.matrix(r)
     d <- data.frame(r,y_train)
+    lab_vals <- unique(d$y_train)
     d<- d[order(-d$r),]
     d<-d[1:k,]
     v1<-c()
     v2<-c()
-    lab_vals <- unique(d$y_train)
     for(j in lab_vals){
       d1 <- d[d$y_train==j,]
       conf = sum(d1$r)/sum(d$r)
@@ -251,9 +249,12 @@ calculate_accuracy <- function(y_pred, y_true){
   
   # confusion matrix should have Prediction to the left, and Reference on the top.
   t <- table(y_pred,y_true)
-  cm<-confusionMatrix(t)
+  #print(t)
+  cm<-confusionMatrix(y_pred, y_true)
   #print(cm)
-  op <- list(confmat = cm, accuracy=cm$overall['Accuracy'])
+  acc <- sum(diag(t))/sum(t)
+  op <- list(confmat = cm$table, accuracy=cm$overall['Accuracy'])
+  #op <- list(confmat=t, accuracy=acc)
   return (op)
 }
 
