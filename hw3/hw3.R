@@ -257,21 +257,21 @@ classification_compare_accuracy <- function(y_test, linear_kernel_prediction, ra
   # Note that I asked you to implement accuracy calculation - do not use a library for this
   
   cm = as.matrix(table(linear_kernel_prediction,y_test))
-  svm_linear_accuracy = sum(diag(cm))/sum(cm)
+  svm_linear_accuracy = (100 * sum(diag(cm)))/sum(cm)
   best_accu = list(svm_linear_accuracy, 'svm-linear')
   
   cm = as.matrix(table(radial_kernel_prediction,y_test))
-  svm_radial_accuracy = sum(diag(cm))/sum(cm)
+  svm_radial_accuracy = (100 * sum(diag(cm)))/sum(cm)
   if(svm_radial_accuracy > best_accu[1])
     best_accu = list(svm_radial_accuracy, 'svm-radial')
   
   cm = as.matrix(table(polynomial_kernel_prediction,y_test))
-  svm_poly_accuracy = sum(diag(cm))/sum(cm)
+  svm_poly_accuracy = (100 * sum(diag(cm)))/sum(cm)
   if(svm_poly_accuracy > best_accu[1])
     best_accu = list(svm_poly_accuracy, 'svm-poly')
   
   cm = as.matrix(table(sigmoid_kernel_prediction,y_test))
-  svm_sigmoid_accuracy = sum(diag(cm))/sum(cm)
+  svm_sigmoid_accuracy = (100 * sum(diag(cm)))/sum(cm)
   if(svm_sigmoid_accuracy > best_accu[1])
     best_accu = list(svm_sigmoid_accuracy, 'svm-sigmoid')
   
