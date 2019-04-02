@@ -121,7 +121,7 @@ regression_compare_rmse <- function(y_test, linear_regression_prediction, ridge_
   ridgeRMSE = calculate_rmse(y_test , ridge_prediction)
   lassoRMSE = calculate_rmse(y_test , lasso_prediction)
   
-  View(list("linear",linearRMSE,c(linearRMSE,ridgeRMSE , lassoRMSE) ))
+  # View(list("linear",linearRMSE,c(linearRMSE,ridgeRMSE , lassoRMSE) ))
   
   if(linearRMSE < ridgeRMSE && linearRMSE < lassoRMSE)
   {
@@ -259,7 +259,7 @@ classification_compare_accuracy <- function(y_test, linear_kernel_prediction, ra
   cm = as.matrix(table(linear_kernel_prediction,y_test))
   svm_linear_accuracy = (100 * sum(diag(cm)))/sum(cm)
   best_accu = list(svm_linear_accuracy, 'svm-linear')
-  
+ 
   cm = as.matrix(table(radial_kernel_prediction,y_test))
   svm_radial_accuracy = (100 * sum(diag(cm)))/sum(cm)
   if(svm_radial_accuracy > best_accu[1])
@@ -275,6 +275,6 @@ classification_compare_accuracy <- function(y_test, linear_kernel_prediction, ra
   if(svm_sigmoid_accuracy > best_accu[1])
     best_accu = list(svm_sigmoid_accuracy, 'svm-sigmoid')
   
-  return(list(best_accu[2], best_accu[1], c(svm_linear_accuracy, svm_radial_accuracy, svm_poly_accuracy, svm_sigmoid_accuracy)))
+  return(list(best_accu[[2]], best_accu[[1]], c(svm_linear_accuracy, svm_radial_accuracy, svm_poly_accuracy, svm_sigmoid_accuracy)))
 }
 
